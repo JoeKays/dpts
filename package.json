@@ -1,0 +1,23 @@
+{
+  "name": "dpts",
+  "version": "0.9.0",
+  "description": "Typescript version of dpt-rp1-py by janten",
+  "main": "dpt.js",
+  "author": "Joe Kays <joeks@mail.de>",
+  "license": "AGPL-3.0",
+  "private": true,
+  "dependencies": {
+    "@nw55/common": "0.1.5"
+  },
+  "devDependencies": {
+    "serve": "^11.3.0",
+    "ts-loader": "^7.0.4",
+    "typescript": "~3.9.3",
+    "webpack": "^4.43.0",
+    "webpack-cli": "^3.3.11"
+  },
+  "scripts": {
+    "build": "webpack",
+    "watch": "webpack --watch"
+  }
+}

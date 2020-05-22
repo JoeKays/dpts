@@ -1,0 +1,93 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+    <meta charset='utf-8' />
+    <title>DPT JS</title>
+    <meta name='viewport' content='width=device-width, initial-scale=1' />
+    <link rel='stylesheet' href='dpt.css' />
+</head>
+
+<body>
+    <script>
+        window.onerror = function (e) {
+            document.body.innerHTML = 'Failed to load: ' + String(e) +
+                '<br /> Try using the most recent version of Firefox, Chrome, or another Chromium-based browser.';
+        }
+    </script>
+
+    <!--BEGIN CONFIG-->
+
+    <script>
+        // Change the URL here if you dare. In web browsers THIS one is the only one that works!
+        let DPT_URL = 'https://digitalpaper.local:8443';
+    </script>
+
+    <section id='clientID'>
+        <!-- replace this with your client ID-->
+    </section>
+
+    <section id='key'>
+        <!-- replace this with your private key (you can just paste the whole thing) -->
+    </section>
+
+    <!--END CONFIG-->
+
+    <div id='loaderWrapper' class='wrapper'>
+        <div class='nodisplay'>
+            <span>Load your device ID here:</span>
+            <br>
+            <input id='deviceIdInput' type='file' class='button' />
+        </div>
+        <br><br>
+        <div class='nodisplay'>
+            <span>Load your private key here*:</span>
+            <br>
+            <input id='keyInput' type='file' class='button' />
+            <br>
+            <br>
+            <span>* must be in pkcs8 format, NOT DPT format</span>
+        </div>
+    </div>
+
+    <div id='mainWrapper' class='wrapper nodisplay'>
+        <h1>DPT JS</h1>
+
+        <section>
+            <h2>Upload file</h2>
+            <span>Document/</span>
+            <input type='text' id='fileUploadPath' value="" />
+            <!-- <label for="fileUpload" class="button"> -->
+            <input id='fileUpload' type='file' id='fileUpload' />
+            <!-- </label> -->
+            <button class='button' id='uploadFileButton' disabled>Upload file</button>
+        </section>
+
+        <section>
+            <h2>Download file</h2>
+            <span>Select path:</span>
+            <span>Document/</span>
+            <input type='text' id='fileDownloadPath' value=".pdf" />
+            <button class='button' id='downloadFileButton'>Download file</button>
+        </section>
+
+        <section id='browser'>
+            <h2>Browser</h2>
+            <div class='menubar'>
+                <button id='upButton'>Up</button>
+                <button id='newFolderButton'>New Folder</button>
+                <button id='uploadFromListButton'>Upload file</button>
+            </div>
+            <div id='addressbar'></div>
+            <ul id='list'>
+            </ul>
+        </section>
+        <section>
+            <h2>Errors</h2>
+            <div id='console'>[Error messages appear here]</div>
+        </section>
+    </div>
+    <script src='./dpt.js'></script>
+</body>
+
+</html>
