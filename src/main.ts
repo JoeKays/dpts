@@ -20,7 +20,7 @@ async function main() {
     let hash = location.hash;
     let reset = hash === '#reset';
     if (reset) {
-        localStorage.removeItem('deviceid');
+        localStorage.removeItem('deviceId');
         localStorage.removeItem('key');
     }
 
