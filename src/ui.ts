@@ -42,7 +42,7 @@ export class UI {
             if (this._level <= 1)
                 return;
             this._level--;
-            this.path = this.path.substr(0, this.path.lastIndexOf('/'));
+            this.path = this.path.substr(0, this.path.lastIndexOf('/') + 1);
             this.displayItems(entry => filterPathAndLevel(this.path, this._level, entry));
         });
         this._newFolderButton.addEventListener('click', () => {
@@ -59,7 +59,7 @@ export class UI {
         return this._path;
     }
     set path(path: string) {
-        this._addressBar.textContent = path;
+        this._addressBar.textContent = path.endsWith('/') ? path : path + '/';
         this._path = path;
     }
 
@@ -126,6 +126,7 @@ export class UI {
         let sorted = filtered.sort((a, b) => sortFoldersFirstAlphabetially(a, b));
         for (let entry of sorted) {
             let listItem = document.createElement('li');
+            listItem.classList.add('listItem');
             if (entry.entry_type === 'folder') {
                 listItem.classList.add('folder');
                 listItem.addEventListener('click', () => {
@@ -137,8 +138,16 @@ export class UI {
                 listItem.classList.add('doc');
                 listItem.addEventListener('click', () => this._dpt.download(entry.entry_path));
             }
-            listItem.textContent = entry.entry_path;
+            let span = document.createElement('span');
+            span.textContent = entry.entry_path.substr(entry.entry_path.lastIndexOf('/') + 1);
+            listItem.appendChild(span);
             this._list.appendChild(listItem);
+        }
+        if (this._list.childNodes.length === 0) {
+            let emptyItem = document.createElement('li');
+            emptyItem.classList.add('listItem', 'emptyItem');
+            emptyItem.textContent = '[empty]';
+            this._list.appendChild(emptyItem);
         }
     }
 }

@@ -77,9 +77,14 @@ button {
     display: none;
 }
 
+.listItem {
+    display: flex;
+    justify-content: space-between;
+}
+
 #addressbar {
-    margin: 5px;
-    font-size: 1.5em;
+    margin: 15px;
+    font-size: 2em;
 }
 
 #uploadFromListButton {
