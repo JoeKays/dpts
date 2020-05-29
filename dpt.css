@@ -82,6 +82,10 @@ button {
     justify-content: space-between;
 }
 
+.deleteButton {
+    margin-right: 5px;
+}
+
 #addressbar {
     margin: 15px;
     font-size: 2em;
