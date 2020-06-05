@@ -32,6 +32,10 @@ export class DPT {
         let nonce = (await response.json()).nonce;
         // console.info(nonce);
         let signedNonce = await this.signNonce(nonce, this._privateKeyStr);
+        if (signedNonce === null) {
+            this.error('Could not authenticate.');
+            return false;
+        }
 
         let data = { "client_id": this._clientId, "nonce_signed": signedNonce };
         let auth = await this._sendRequest('/auth', 'PUT', data);
@@ -43,14 +47,20 @@ export class DPT {
     }
 
     async signNonce(nonce: string, keyStr: string) {
+        let nonceBytes = utf8.getBytes(nonce);
         let keyBin = base64.getBytes(keyStr);
         let options = { name: 'RSASSA-PKCS1-v1_5', hash: 'SHA-256' };
-        let key = await crypto.subtle.importKey('pkcs8', keyBin, options, false, ['sign']);
-        let nonceBytes = utf8.getBytes(nonce);
-        const signature = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, nonceBytes.buffer);
-        let signatureBase64 = base64.getString(new Uint8Array(signature));
-        // console.info('Signed nonce: ', signatureBase64);
-        return signatureBase64;
+        try {
+            let key = await crypto.subtle.importKey('pkcs8', keyBin, options, false, ['sign']);
+            const signature = await crypto.subtle.sign('RSASSA-PKCS1-v1_5', key, nonceBytes.buffer);
+            let signatureBase64 = base64.getString(new Uint8Array(signature));
+            // console.info('Signed nonce: ', signatureBase64);
+            return signatureBase64;
+        }
+        catch (e) {
+            this.error('Key import or signing failed. Most likely your key is malformed.');
+            return null;
+        }
     }
 
     async getObjectInfo(path: string) {
