@@ -1,6 +1,6 @@
 import { DPT } from "./dpt";
 import { UI } from "./ui";
-import { getDeviceId, getKey, loadDeviceId, loadKey } from "./utils";
+import { getDeviceId, getKey, loadDeviceId, loadKey } from "./loading";
 
 let dpt: DPT;
 let ui: UI;
