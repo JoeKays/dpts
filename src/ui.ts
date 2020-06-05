@@ -43,7 +43,9 @@ export class UI {
             if (this._level <= 1)
                 return;
             this._level--;
-            this.path = this.path.substr(0, this.path.lastIndexOf('/') + 1);
+            while (this.path.endsWith('/')) // safety first
+                this.path = this._path.substr(0, this._path.length - 1);
+            this.path = this._path.substr(0, this._path.lastIndexOf('/'));
             this.displayItems(entry => filterPathAndLevel(this.path, this._level, entry));
         });
         this._newFolderButton.addEventListener('click', () => {
