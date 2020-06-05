@@ -20,6 +20,7 @@ export class UI {
     private _entries: Entry[] = [];
     private _level = 1;
     private _path = '';
+    private _error = false;
 
     constructor(dpt: DPT) {
         this._dpt = dpt;
@@ -64,7 +65,12 @@ export class UI {
     }
 
     error(message: string) {
-        this._outputEle.textContent += message + '\n';
+        if (this._error)
+            this._outputEle.textContent += message + '\n';
+        else {
+            this._outputEle.textContent = message + '\n';
+            this._error = true;
+        }
     }
 
     async load(reload = false) {
