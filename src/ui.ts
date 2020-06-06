@@ -116,23 +116,8 @@ export class UI {
     }
 
     async deleteEntry(entry: Entry) {
-        console.info('About to delete entry "' + entry.entry_path + '".');
-        if (entry.entry_type === 'folder') {
-            let ok = window.confirm('Are you sure you want to delete the Folder "' + entry.entry_path + '"?');
-            if (!ok)
-                return;
-            console.info('Deleting folder "' + entry.entry_path + '".');
-            await this._dpt.deleteFolder(entry.entry_path);
-            this.displayReload();
-        }
-        else {
-            let ok = window.confirm('Are you sure you want to delete the Document "' + entry.entry_path + '"?');
-            if (!ok)
-                return;
-            console.info('Deleting document "' + entry.entry_path + '".');
-            await this._dpt.deleteDocument(entry.entry_path);
-            this.displayReload();
-        }
+        await this._dpt.deleteDocument(entry.entry_path);
+        this.displayReload();
     }
 
     async newFolder() {
@@ -169,14 +154,37 @@ export class UI {
             let span = document.createElement('span');
             span.textContent = entry.entry_path.substr(entry.entry_path.lastIndexOf('/') + 1);
             listItem.appendChild(span);
+
+            let menuEle = document.createElement('div');
+            menuEle.classList.add('listMenu');
             let deleteButton = document.createElement('button');
             deleteButton.classList.add('deleteButton', 'button');
             deleteButton.textContent = 'x';
-            deleteButton.addEventListener('click', (e) => {
-                this.deleteEntry(entry);
+            let cancelButton = document.createElement('button');
+            cancelButton.classList.add('cancelButton', 'button', 'nodisplay');
+            cancelButton.textContent = 'Cancel';
+            cancelButton.addEventListener('click', (e) => {
+                deleteButton.textContent = 'x';
+                cancelButton.classList.add('nodisplay');
                 e.cancelBubble = true;
             });
-            listItem.appendChild(deleteButton);
+            deleteButton.addEventListener('click', (e) => {
+                if (deleteButton.textContent === 'x') {
+                    cancelButton.classList.remove('nodisplay');
+                    deleteButton.textContent = 'Delete';
+                    console.info('About to delete ' + entry.entry_type + ' "' + entry.entry_path + '".');
+                }
+                else {
+                    cancelButton.classList.add('nodisplay');
+                    deleteButton.textContent = 'x';
+                    console.info('Deleting ' + entry.entry_type + ' "' + entry.entry_path + '".');
+                    this.deleteEntry(entry);
+                }
+                e.cancelBubble = true;
+            });
+            menuEle.appendChild(deleteButton);
+            menuEle.appendChild(cancelButton);
+            listItem.appendChild(menuEle);
             this._list.appendChild(listItem);
         }
         if (this._list.childNodes.length === 0) {
