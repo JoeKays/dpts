@@ -16,6 +16,9 @@ declare global {
 async function main() {
     dpt_url = DPT_URL;
     console.info('Using DPT url "' + dpt_url + '".');
+    let dptAPILink = document.getElementById('dptAPILink') as HTMLLinkElement;
+    dptAPILink.href = dpt_url;
+    dptAPILink.textContent = dpt_url;
 
     let hash = location.hash;
     let reset = hash === '#reset';

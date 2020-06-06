@@ -1,12 +1,15 @@
 body {
     display: flex;
     justify-content: center;
-    font-size: 1em;
     font-family: sans-serif;
 }
 
 h1 {
     text-align: center;
+}
+
+a {
+    font-size: 1.5em;
 }
 
 span {
